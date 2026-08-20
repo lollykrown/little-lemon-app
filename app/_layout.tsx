@@ -2,9 +2,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
 import { Image } from 'expo-image';
 import { Stack, router } from 'expo-router';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import  { loadProfile, getImage } from '../lib/utils';
+import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import  { getImage } from '../lib/utils';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
 
 // yellow #F4CE14
 // #495E57
@@ -24,14 +25,17 @@ const Logo = () => {
   );
 };
 export default function RootLayout() {
+  const router = useRouter();
 
   const [image, setImage] = useState<string | null>(null);
+  const [initials, setInitials] = useState<string | null>(null);
+
 
   const loadImage = async() =>{
     const i = await getImage();
-    console.log('image',i)
     if(i===null) return
-    setImage(null)
+    setImage(i.image);
+    setInitials(i.initials)
   }
 
    useEffect(() => {
@@ -90,20 +94,19 @@ export default function RootLayout() {
                 marginLeft: 8,
               }}/>
               ) : (
-              <Image
-              source={require('../assets/images/profile.png')}
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                marginLeft: 8,
-              }}/>
-              // <View style={styles.initialsContainer}>
-              //   <Text style={styles.initials}>
-              //     {profileObj?.firstname?.[0] ?? ''}{' '}
-              //     {profileObj?.lastname?.[0] ?? ''}
-              //   </Text>
-              // </View>
+              // <Image
+              // source={require('../assets/images/profile.png')}
+              // style={{
+              //   width: 36,
+              //   height: 36,
+              //   borderRadius: 18,
+              //   marginLeft: 8,
+              // }}/>
+              <View style={styles.initialsContainer}>
+                <Text style={styles.initials}>
+                  {initials|| 'TS'}
+                </Text>
+              </View>
             )}
             </TouchableOpacity>
           ),
@@ -130,6 +133,7 @@ export default function RootLayout() {
     </Stack>
   );
 }
+
 const styles = StyleSheet.create({
   initialsContainer: {
     width: 36,
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
   },
   initials: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 })

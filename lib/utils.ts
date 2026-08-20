@@ -148,7 +148,7 @@ export const getImage = async () => {
     const parsedProfile = JSON.parse(storedProfile);
 
 
-    return parsedProfile.profileImage;
+    return {image:parsedProfile.profileImage, initials:`${parsedProfile?.firstname?.[0]} ${parsedProfile?.lastname?.[0]}`}
   } catch (error) {
     console.error('Failed to load profile:', error);
     return null

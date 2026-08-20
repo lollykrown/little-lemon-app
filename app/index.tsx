@@ -13,7 +13,7 @@ export default function Index() {
       setIsLoading(true)
       const value = await AsyncStorage.getItem('onboardingComplete');
 
-      console.log('onboardingComplete:', value, isLoggedIn);
+      // console.log('onboardingComplete:', value, isLoggedIn);
 
       if (value !== null) {
         setIsLoading(false)
@@ -32,8 +32,6 @@ export default function Index() {
     // removeValue()
     getData();
   }, []);
-
-    console.log('isLoggedIn:', isLoggedIn);
 
 
 // Still checking authentication
