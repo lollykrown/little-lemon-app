@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 import { Image } from 'expo-image';
 import { Stack, router } from 'expo-router';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import  { loadProfile, Profile, DEFAULT_PROFILE } from '../lib/utils';
+import  { loadProfile, getImage } from '../lib/utils';
 import { useEffect, useState } from 'react';
 
 // yellow #F4CE14
@@ -24,12 +24,11 @@ const Logo = () => {
   );
 };
 export default function RootLayout() {
-  const [profileObj, setProfileObj] = useState<Profile>(DEFAULT_PROFILE);
 
   const [image, setImage] = useState<string | null>(null);
 
   const loadImage = async() =>{
-    const i = await loadProfile(setProfileObj,setImage);
+    const i = await getImage();
     console.log('image',i)
     if(i===null) return
     setImage(null)
@@ -91,12 +90,20 @@ export default function RootLayout() {
                 marginLeft: 8,
               }}/>
               ) : (
-              <View style={styles.initialsContainer}>
-                <Text style={styles.initials}>
-                  {profileObj?.firstname?.[0] ?? ''}{' '}
-                  {profileObj?.lastname?.[0] ?? ''}
-                </Text>
-              </View>
+              <Image
+              source={require('../assets/images/profile.png')}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                marginLeft: 8,
+              }}/>
+              // <View style={styles.initialsContainer}>
+              //   <Text style={styles.initials}>
+              //     {profileObj?.firstname?.[0] ?? ''}{' '}
+              //     {profileObj?.lastname?.[0] ?? ''}
+              //   </Text>
+              // </View>
             )}
             </TouchableOpacity>
           ),
